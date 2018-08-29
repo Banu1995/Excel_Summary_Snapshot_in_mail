@@ -1,0 +1,29 @@
+Sub ExportScreenShot(in_ImagepathNotification)
+Dim FName As String
+FName = in_ImagepathNotification
+Dim ShTemp As Worksheet
+Dim ChTemp As Chart
+Dim PicTemp As Picture
+Application.ScreenUpdating = False
+Sheets("Pivot").Activate
+ActiveSheet.UsedRange.Select
+Selection.CopyPicture Appearance:=xlScreen, Format:=xlPicture
+Set ShTemp = Worksheets.Add
+Charts.Add
+ActiveChart.Location Where:=xlLocationAsObject, Name:=ShTemp.Name
+Set ChTemp = ActiveChart
+
+ChTemp.Paste
+Set PicTemp = Selection
+With ChTemp.Parent
+.Width = PicTemp.Width + 2302
+.Height = PicTemp.Height + 3000
+End With
+ChTemp.Export Filename:=in_ImagepathNotification, FilterName:="jpg"
+'UserForm1.Image1.Picture = LoadPicture(FName)
+'Kill FName
+Application.DisplayAlerts = False
+ShTemp.Delete
+Application.DisplayAlerts = True
+Application.ScreenUpdating = True
+End Sub
